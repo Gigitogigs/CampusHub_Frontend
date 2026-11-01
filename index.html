@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampusHub</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>CampusHub</h1>
+        <p>Unified communication across campus tenants</p>
+      </header>
+
+      <section class="tenant-controls">
+        <label for="tenant-select">Campus tenant</label>
+        <select id="tenant-select" aria-label="Campus tenant selector"></select>
+      </section>
+
+      <section class="content-grid">
+        <article class="card">
+          <h2>Channels</h2>
+          <ul id="channel-list"></ul>
+        </article>
+        <article class="card">
+          <h2>Announcements</h2>
+          <ul id="announcement-list"></ul>
+        </article>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
