@@ -1,9 +1,10 @@
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import HomeHeader from './components/HomeHeader';
 import UniversalSearchBar from './components/UniversalSearchBar';
 import UpdatesSection from './components/UpdatesSection';
+import PagerView from 'react-native-pager-view';
 import {
   House,
   Grid2X2,
@@ -12,6 +13,7 @@ import {
 } from 'lucide-react-native';
 
 import {
+  Animated,
   Pressable,
   StyleSheet,
   View,
@@ -38,6 +40,19 @@ type TabName = (typeof tabs)[number]['name'];
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabName>('Home');
   const [searchQuery, setSearchQuery] = useState('');
+  const [tabBarWidth, setTabBarWidth] = useState(0);
+  const pagerRef = useRef<PagerView>(null);
+  const pagePosition = useRef(new Animated.Value(0)).current;
+  const indicatorWidth = 22;
+  const indicatorTranslateX = pagePosition.interpolate({
+    inputRange: tabs.map((_, index) => index),
+    outputRange: tabs.map(
+      (_, index) =>
+        (tabBarWidth * (index + 0.5)) / tabs.length - indicatorWidth / 2,
+    ),
+    extrapolate: 'clamp',
+  });
+
   return (
     <SafeAreaProvider>
       <SafeAreaView
@@ -47,29 +62,52 @@ export default function App() {
         <StatusBar style="light" />
 
         {/* Main content */}
-         <View style={styles.content}>
-  <HomeHeader
-    notificationCount={2}
-    onMenuPress={() => console.log('Menu pressed')}
-    onNotificationsPress={() => console.log('Notifications pressed')}
-    onProfilePress={() => console.log('Profile pressed')}
-  />
+        <View style={styles.content}>
+          <HomeHeader
+            notificationCount={2}
+            onMenuPress={() => console.log('Menu pressed')}
+            onNotificationsPress={() => console.log('Notifications pressed')}
+            onProfilePress={() => console.log('Profile pressed')}
+          />
           <UniversalSearchBar
-  value={searchQuery}
-  onChangeText={setSearchQuery}
-/>
-          {activeTab !== 'Home' && (
-            <View style={styles.emptyContent} />
-          )}
-       {activeTab === 'Home' ? (
-  <UpdatesSection />
-) : (
-  <View style={styles.emptyContent} />
-)}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          <PagerView
+            ref={pagerRef}
+            style={styles.pager}
+            initialPage={0}
+            onPageScroll={({ nativeEvent }) => {
+              pagePosition.setValue(
+                nativeEvent.position + nativeEvent.offset,
+              );
+            }}
+            onPageSelected={({ nativeEvent }) => {
+              const selectedTab = tabs[nativeEvent.position];
+              if (selectedTab) {
+                setActiveTab(selectedTab.name);
+              }
+            }}
+          >
+            {tabs.map((tab) => (
+              <View
+                key={tab.name}
+                style={styles.page}
+                collapsable={false}
+              >
+                {tab.name === 'Home' && <UpdatesSection />}
+              </View>
+            ))}
+          </PagerView>
         </View>
 
         {/* Bottom Navigation */}
-        <View style={styles.tabBar}>
+        <View
+          style={styles.tabBar}
+          onLayout={({ nativeEvent }) =>
+            setTabBarWidth(nativeEvent.layout.width)
+          }
+        >
           {tabs.map((tab) => {
             const isActive = tab.name === activeTab;
             const color = isActive ? '#A5F52A' : '#A6A6A6';
@@ -82,7 +120,12 @@ export default function App() {
                 accessibilityRole="tab"
                 accessibilityLabel={tab.name}
                 accessibilityState={{ selected: isActive }}
-                onPress={() => setActiveTab(tab.name)}
+                onPress={() => {
+                  const pageIndex = tabs.findIndex(
+                    (item) => item.name === tab.name,
+                  );
+                  pagerRef.current?.setPage(pageIndex);
+                }}
                 style={({ pressed }) => [
                   styles.tab,
                   pressed && styles.pressedTab,
@@ -96,6 +139,17 @@ export default function App() {
               </Pressable>
             );
           })}
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              styles.tabIndicator,
+              {
+                width: indicatorWidth,
+                opacity: tabBarWidth > 0 ? 1 : 0,
+                transform: [{ translateX: indicatorTranslateX }],
+              },
+            ]}
+          />
         </View>
 
       </SafeAreaView>
@@ -115,12 +169,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
 
-  emptyContent: {
+  pager: {
+    flex: 1,
+  },
+
+  page: {
     flex: 1,
   },
 
   tabBar: {
     height: 64,
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#000000',
@@ -137,5 +196,14 @@ const styles = StyleSheet.create({
 
   pressedTab: {
     opacity: 0.65,
+  },
+
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 5,
+    left: 0,
+    height: 3,
+    borderRadius: 2,
+    backgroundColor: '#FFFFFF',
   },
 });

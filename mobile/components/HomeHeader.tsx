@@ -29,14 +29,14 @@ export default function HomeHeader({
   return (
     <View style={styles.container}>
 
-      {/* Menu button */}
+      {/* Profile */}
       <Pressable
-        onPress={onMenuPress}
-        style={styles.iconButton}
+        onPress={onProfilePress}
+        style={styles.profileButton}
         accessibilityRole="button"
-        accessibilityLabel="Open menu"
+        accessibilityLabel="Open profile"
       >
-        <Menu size={25} color="#FFFFFF" strokeWidth={2} />
+        <UserRound size={21} color="#A5F52A" strokeWidth={2} />
       </Pressable>
 
       {/* App branding */}
@@ -67,14 +67,14 @@ export default function HomeHeader({
           )}
         </Pressable>
 
-        {/* Profile */}
+        {/* Menu button */}
         <Pressable
-          onPress={onProfilePress}
-          style={styles.profileButton}
+          onPress={onMenuPress}
+          style={styles.iconButton}
           accessibilityRole="button"
-          accessibilityLabel="Open profile"
+          accessibilityLabel="Open menu"
         >
-          <UserRound size={21} color="#A5F52A" strokeWidth={2} />
+          <Menu size={25} color="#FFFFFF" strokeWidth={2} />
         </Pressable>
 
       </View>
