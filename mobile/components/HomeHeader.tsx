@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import AppText from './AppText';
+import { useAppTheme } from './theme';
 import {
   Menu,
   Bell,
@@ -26,23 +27,31 @@ export default function HomeHeader({
   onProfilePress,
   notificationCount = 2,
 }: HomeHeaderProps) {
+  const { colors } = useAppTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
 
       {/* Profile */}
       <Pressable
         onPress={onProfilePress}
-        style={styles.profileButton}
+        style={[
+          styles.profileButton,
+          {
+            backgroundColor: colors.surface,
+            borderColor: colors.accent,
+          },
+        ]}
         accessibilityRole="button"
         accessibilityLabel="Open profile"
       >
-        <UserRound size={21} color="#A5F52A" strokeWidth={2} />
+        <UserRound size={21} color={colors.accent} strokeWidth={2} />
       </Pressable>
 
       {/* App branding */}
       <View style={styles.brandContainer}>
-        <AppText style={styles.brandText}>
-          Campus <AppText style={styles.brandAccent}>Hub</AppText>
+        <AppText style={[styles.brandText, { color: colors.text }]}>
+          Campus <AppText style={{ color: colors.accent }}>Hub</AppText>
         </AppText>
       </View>
 
@@ -56,11 +65,21 @@ export default function HomeHeader({
           accessibilityRole="button"
           accessibilityLabel={`${notificationCount} notifications`}
         >
-          <Bell size={23} color="#FFFFFF" strokeWidth={2} />
+          <Bell size={23} color={colors.text} strokeWidth={2} />
 
           {notificationCount > 0 && (
-            <View style={styles.notificationBadge}>
-              <AppText style={styles.badgeText}>
+            <View
+              style={[
+                styles.notificationBadge,
+                { backgroundColor: colors.accent },
+              ]}
+            >
+              <AppText
+                style={[
+                  styles.badgeText,
+                  { color: colors.accentForeground },
+                ]}
+              >
                 {notificationCount > 9 ? '9+' : notificationCount}
               </AppText>
             </View>
@@ -74,7 +93,7 @@ export default function HomeHeader({
           accessibilityRole="button"
           accessibilityLabel="Open menu"
         >
-          <Menu size={25} color="#FFFFFF" strokeWidth={2} />
+          <Menu size={25} color={colors.text} strokeWidth={2} />
         </Pressable>
 
       </View>
@@ -90,7 +109,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 18,
-    backgroundColor: '#000000',
   },
 
   iconButton: {
@@ -109,12 +127,7 @@ const styles = StyleSheet.create({
   brandText: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#FFFFFF',
     letterSpacing: -0.5,
-  },
-
-  brandAccent: {
-    color: '#A5F52A',
   },
 
   actionsContainer: {
@@ -130,7 +143,6 @@ const styles = StyleSheet.create({
     minWidth: 16,
     height: 16,
     borderRadius: 8,
-    backgroundColor: '#A5F52A',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 3,
@@ -139,7 +151,6 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 9,
     fontWeight: '800',
-    color: '#242424',
   },
 
   profileButton: {
@@ -147,8 +158,6 @@ const styles = StyleSheet.create({
     height: 38,
     borderRadius: 19,
     borderWidth: 1.5,
-    borderColor: '#A5F52A',
-    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },

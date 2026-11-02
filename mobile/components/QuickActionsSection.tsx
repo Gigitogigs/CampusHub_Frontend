@@ -11,6 +11,8 @@ import {
   View,
 } from 'react-native';
 import AppText from './AppText';
+import { useAppTheme } from './theme';
+import DarkCardGradient from './DarkCardGradient';
 
 const actions = [
   { label: 'Browse marketplace', Icon: ShoppingBag },
@@ -26,10 +28,14 @@ type QuickActionsSectionProps = {
 export default function QuickActionsSection({
   onPressAction,
 }: QuickActionsSectionProps) {
+  const { colors } = useAppTheme();
+
   return (
     <View style={styles.container}>
       <View style={styles.sectionHeader}>
-        <AppText style={styles.sectionTitle}>Quick actions</AppText>
+        <AppText style={[styles.sectionTitle, { color: colors.text }]}>
+          Quick actions
+        </AppText>
       </View>
 
       <View style={styles.grid}>
@@ -44,26 +50,36 @@ export default function QuickActionsSection({
               onPress={() => onPressAction?.(label)}
               style={({ pressed }) => [
                 styles.actionTile,
-                isFeatured && styles.featuredTile,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: isFeatured ? colors.accent : colors.border,
+                },
                 pressed && styles.pressed,
               ]}
             >
+              <DarkCardGradient />
               <View
                 style={[
                   styles.iconContainer,
-                  isFeatured && styles.featuredIconContainer,
+                  {
+                    backgroundColor: isFeatured
+                      ? colors.accent
+                      : colors.raisedSurface,
+                  },
                 ]}
               >
                 <Icon
                   size={21}
-                  color={isFeatured ? '#000000' : '#A5F52A'}
+                  color={isFeatured ? colors.accentForeground : colors.accent}
                   strokeWidth={2}
                 />
               </View>
-              <AppText style={styles.actionLabel}>{label}</AppText>
+              <AppText style={[styles.actionLabel, { color: colors.text }]}>
+                {label}
+              </AppText>
               <ChevronRight
                 size={16}
-                color={isFeatured ? '#A5F52A' : '#A6A6A6'}
+                color={isFeatured ? colors.accent : colors.secondaryText}
                 strokeWidth={2}
               />
             </Pressable>
@@ -83,7 +99,6 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   sectionTitle: {
-    color: '#FFFFFF',
     fontSize: 19,
     fontWeight: '700',
   },
@@ -93,6 +108,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   actionTile: {
+    position: 'relative',
+    overflow: 'hidden',
     width: '48%',
     minHeight: 104,
     flexDirection: 'row',
@@ -101,12 +118,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 13,
     borderWidth: 1,
-    borderColor: '#383838',
     borderRadius: 14,
-    backgroundColor: '#000000',
-  },
-  featuredTile: {
-    borderColor: '#A5F52A',
   },
   iconContainer: {
     width: 34,
@@ -114,14 +126,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    backgroundColor: '#181818',
-  },
-  featuredIconContainer: {
-    backgroundColor: '#A5F52A',
   },
   actionLabel: {
     flex: 1,
-    color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 18,

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Search, X } from 'lucide-react-native';
 import AppTextInput from './AppTextInput';
+import { useAppTheme } from './theme';
 
 type UniversalSearchBarProps = {
   value: string;
@@ -21,22 +22,31 @@ export default function UniversalSearchBar({
   onSubmit,
 }: UniversalSearchBarProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const { colors } = useAppTheme();
 
   return (
-    <View style={[styles.container, isFocused && styles.focusedContainer]}>
-      <Search size={20} color="#A6A6A6" strokeWidth={2} />
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.surface,
+          borderColor: isFocused ? colors.accent : colors.border,
+        },
+      ]}
+    >
+      <Search size={20} color={colors.secondaryText} strokeWidth={2} />
 
       <AppTextInput
         accessibilityLabel="Search"
-        style={styles.input}
+        style={[styles.input, { color: colors.text }]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#A6A6A6"
+        placeholderTextColor={colors.secondaryText}
         returnKeyType="search"
         autoCapitalize="none"
         autoCorrect={false}
-        selectionColor="#A5F52A"
+        selectionColor={colors.accent}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onSubmitEditing={onSubmit}
@@ -49,7 +59,7 @@ export default function UniversalSearchBar({
           onPress={() => onChangeText('')}
           hitSlop={8}
         >
-          <X size={20} color="#A6A6A6" strokeWidth={2} />
+          <X size={20} color={colors.secondaryText} strokeWidth={2} />
         </Pressable>
       )}
     </View>
@@ -64,17 +74,11 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 14,
     borderWidth: 1,
-    borderColor: '#505050',
     borderRadius: 14,
-    backgroundColor: '#000000',
-  },
-  focusedContainer: {
-    borderColor: '#A5F52A',
   },
   input: {
     flex: 1,
     paddingVertical: 10,
-    color: '#FFFFFF',
     fontSize: 16,
   },
 });

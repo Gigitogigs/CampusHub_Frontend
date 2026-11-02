@@ -5,6 +5,8 @@ import {
   View,
 } from 'react-native';
 import AppText from './AppText';
+import { useAppTheme } from './theme';
+import DarkCardGradient from './DarkCardGradient';
 
 export type SchoolUpdate = {
   id: string;
@@ -55,10 +57,14 @@ export default function UpdatesSection({
   onPressUpdate,
   onPressSeeAll,
 }: UpdatesSectionProps) {
+  const { colors } = useAppTheme();
+
   return (
     <View style={styles.container}>
       <View style={styles.sectionHeader}>
-        <AppText style={styles.sectionTitle}>School updates</AppText>
+        <AppText style={[styles.sectionTitle, { color: colors.text }]}>
+          School updates
+        </AppText>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="See all school updates"
@@ -68,15 +74,28 @@ export default function UpdatesSection({
             pressed && styles.pressed,
           ]}
         >
-          <AppText style={styles.seeAllText}>See all</AppText>
-          <ChevronRight size={16} color="#A5F52A" strokeWidth={2.5} />
+          <AppText style={[styles.seeAllText, { color: colors.accent }]}>
+            See all
+          </AppText>
+          <ChevronRight size={16} color={colors.accent} strokeWidth={2.5} />
         </Pressable>
       </View>
 
       {updates.length === 0 ? (
-        <View style={styles.emptyCard}>
-          <AppText style={styles.emptyTitle}>You’re all caught up</AppText>
-          <AppText style={styles.emptyText}>
+        <View
+          style={[
+            styles.emptyCard,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <DarkCardGradient />
+          <AppText style={[styles.emptyTitle, { color: colors.text }]}>
+            You’re all caught up
+          </AppText>
+          <AppText style={[styles.emptyText, { color: colors.secondaryText }]}>
             New school announcements will appear here.
           </AppText>
         </View>
@@ -93,38 +112,82 @@ export default function UpdatesSection({
                 onPress={() => onPressUpdate?.(update)}
                 style={({ pressed }) => [
                   styles.updateCard,
-                  isUrgent && styles.urgentCard,
+                  {
+                    backgroundColor: colors.surface,
+                    borderColor: isUrgent ? colors.urgentBorder : colors.border,
+                  },
                   pressed && styles.pressed,
                 ]}
               >
+                <DarkCardGradient />
                 <View style={styles.cardTopRow}>
                   <View
                     style={[
                       styles.categoryPill,
-                      isUrgent && styles.urgentPill,
+                      {
+                        backgroundColor: isUrgent
+                          ? colors.urgentSurface
+                          : colors.raisedSurface,
+                      },
                     ]}
                   >
-                    {isUrgent && <View style={styles.urgentDot} />}
+                    {isUrgent && (
+                      <View
+                        style={[
+                          styles.urgentDot,
+                          { backgroundColor: colors.urgentDot },
+                        ]}
+                      />
+                    )}
                     <AppText
                       style={[
                         styles.categoryText,
-                        isUrgent && styles.urgentText,
+                        {
+                          color: isUrgent
+                            ? colors.urgentText
+                            : colors.categoryText,
+                        },
                       ]}
                     >
                       {isUrgent ? 'Urgent' : update.category}
                     </AppText>
                   </View>
-                  <AppText style={styles.timeText}>{update.timeLabel}</AppText>
+                  <AppText
+                    style={[styles.timeText, { color: colors.secondaryText }]}
+                  >
+                    {update.timeLabel}
+                  </AppText>
                 </View>
 
-                <AppText style={styles.updateTitle}>{update.title}</AppText>
-                <AppText style={styles.summary} numberOfLines={2}>
+                <AppText style={[styles.updateTitle, { color: colors.text }]}>
+                  {update.title}
+                </AppText>
+                <AppText
+                  style={[styles.summary, { color: colors.mutedText }]}
+                  numberOfLines={2}
+                >
                   {update.summary}
                 </AppText>
 
-                <View style={styles.cardFooter}>
-                  <AppText style={styles.sourceText}>{update.source}</AppText>
-                  <ChevronRight size={18} color="#A6A6A6" strokeWidth={2} />
+                <View
+                  style={[
+                    styles.cardFooter,
+                    { borderTopColor: colors.divider },
+                  ]}
+                >
+                  <AppText
+                    style={[
+                      styles.sourceText,
+                      { color: colors.secondaryText },
+                    ]}
+                  >
+                    {update.source}
+                  </AppText>
+                  <ChevronRight
+                    size={18}
+                    color={colors.secondaryText}
+                    strokeWidth={2}
+                  />
                 </View>
               </Pressable>
             );
@@ -148,7 +211,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   sectionTitle: {
-    color: '#FFFFFF',
     fontSize: 19,
     fontWeight: '700',
   },
@@ -159,7 +221,6 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   seeAllText: {
-    color: '#A5F52A',
     fontSize: 13,
     fontWeight: '600',
   },
@@ -167,14 +228,11 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   updateCard: {
+    position: 'relative',
+    overflow: 'hidden',
     padding: 14,
     borderWidth: 1,
-    borderColor: '#484848',
     borderRadius: 14,
-    backgroundColor: '#000000',
-  },
-  urgentCard: {
-    borderColor: '#755047',
   },
   cardTopRow: {
     flexDirection: 'row',
@@ -189,38 +247,26 @@ const styles = StyleSheet.create({
     gap: 5,
     paddingHorizontal: 9,
     borderRadius: 12,
-    backgroundColor: '#000000',
-  },
-  urgentPill: {
-    backgroundColor: '#4B3533',
   },
   urgentDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#FF8A78',
   },
   categoryText: {
-    color: '#D1D1D1',
     fontSize: 11,
     fontWeight: '600',
   },
-  urgentText: {
-    color: '#FFAA9C',
-  },
   timeText: {
-    color: '#A6A6A6',
     fontSize: 11,
   },
   updateTitle: {
     marginBottom: 5,
-    color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '700',
     lineHeight: 21,
   },
   summary: {
-    color: '#C0C0C0',
     fontSize: 13,
     lineHeight: 19,
   },
@@ -231,28 +277,24 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#505050',
   },
   sourceText: {
-    color: '#A6A6A6',
     fontSize: 12,
     fontWeight: '500',
   },
   emptyCard: {
+    position: 'relative',
+    overflow: 'hidden',
     padding: 18,
     borderWidth: 1,
-    borderColor: '#484848',
     borderRadius: 14,
-    backgroundColor: '#000000',
   },
   emptyTitle: {
     marginBottom: 4,
-    color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '700',
   },
   emptyText: {
-    color: '#A6A6A6',
     fontSize: 13,
     lineHeight: 19,
   },
