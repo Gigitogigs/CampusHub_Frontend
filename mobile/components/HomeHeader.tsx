@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 18,
-    backgroundColor: '#303030',
+    backgroundColor: '#000000',
   },
 
   iconButton: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     borderRadius: 19,
     borderWidth: 1.5,
     borderColor: '#A5F52A',
-    backgroundColor: '#383838',
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },

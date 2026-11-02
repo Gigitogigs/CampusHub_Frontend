@@ -2,7 +2,8 @@
 import { useState } from 'react';
 
 import HomeHeader from './components/HomeHeader';
-
+import UniversalSearchBar from './components/UniversalSearchBar';
+import UpdatesSection from './components/UpdatesSection';
 import {
   House,
   Grid2X2,
@@ -36,7 +37,7 @@ type TabName = (typeof tabs)[number]['name'];
 // Main application
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabName>('Home');
-
+  const [searchQuery, setSearchQuery] = useState('');
   return (
     <SafeAreaProvider>
       <SafeAreaView
@@ -46,21 +47,25 @@ export default function App() {
         <StatusBar style="light" />
 
         {/* Main content */}
-        <View style={styles.content}>
-
-          {activeTab === 'Home' && (
-            <HomeHeader
-              notificationCount={2}
-              onMenuPress={() => console.log('Menu pressed')}
-              onNotificationsPress={() => console.log('Notifications pressed')}
-              onProfilePress={() => console.log('Profile pressed')}
-            />
-          )}
-
+         <View style={styles.content}>
+  <HomeHeader
+    notificationCount={2}
+    onMenuPress={() => console.log('Menu pressed')}
+    onNotificationsPress={() => console.log('Notifications pressed')}
+    onProfilePress={() => console.log('Profile pressed')}
+  />
+          <UniversalSearchBar
+  value={searchQuery}
+  onChangeText={setSearchQuery}
+/>
           {activeTab !== 'Home' && (
             <View style={styles.emptyContent} />
           )}
-
+       {activeTab === 'Home' ? (
+  <UpdatesSection />
+) : (
+  <View style={styles.emptyContent} />
+)}
         </View>
 
         {/* Bottom Navigation */}
@@ -102,12 +107,12 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#303030',
+    backgroundColor: '#000000',
   },
 
   content: {
     flex: 1,
-    backgroundColor: '#303030',
+    backgroundColor: '#000000',
   },
 
   emptyContent: {
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
     height: 64,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#242424',
+    backgroundColor: '#000000',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#505050',
   },
