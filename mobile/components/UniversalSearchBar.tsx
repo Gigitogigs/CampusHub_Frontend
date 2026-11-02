@@ -2,10 +2,10 @@ import { useState } from 'react';
 import {
   Pressable,
   StyleSheet,
-  TextInput,
   View,
 } from 'react-native';
 import { Search, X } from 'lucide-react-native';
+import AppTextInput from './AppTextInput';
 
 type UniversalSearchBarProps = {
   value: string;
@@ -26,7 +26,7 @@ export default function UniversalSearchBar({
     <View style={[styles.container, isFocused && styles.focusedContainer]}>
       <Search size={20} color="#A6A6A6" strokeWidth={2} />
 
-      <TextInput
+      <AppTextInput
         accessibilityLabel="Search"
         style={styles.input}
         value={value}

@@ -1,9 +1,12 @@
 
 import { useRef, useState } from 'react';
+import { useFonts } from 'expo-font';
 
 import HomeHeader from './components/HomeHeader';
 import UniversalSearchBar from './components/UniversalSearchBar';
+import QuickActionsSection from './components/QuickActionsSection';
 import UpdatesSection from './components/UpdatesSection';
+import { publicSansFonts } from './components/fonts';
 import PagerView from 'react-native-pager-view';
 import {
   House,
@@ -15,6 +18,7 @@ import {
 import {
   Animated,
   Pressable,
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -38,6 +42,7 @@ type TabName = (typeof tabs)[number]['name'];
 
 // Main application
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts(publicSansFonts);
   const [activeTab, setActiveTab] = useState<TabName>('Home');
   const [searchQuery, setSearchQuery] = useState('');
   const [tabBarWidth, setTabBarWidth] = useState(0);
@@ -52,6 +57,14 @@ export default function App() {
     ),
     extrapolate: 'clamp',
   });
+
+  if (fontError) {
+    throw fontError;
+  }
+
+  if (!fontsLoaded) {
+    return <View style={styles.screen} />;
+  }
 
   return (
     <SafeAreaProvider>
@@ -95,7 +108,16 @@ export default function App() {
                 style={styles.page}
                 collapsable={false}
               >
-                {tab.name === 'Home' && <UpdatesSection />}
+                {tab.name === 'Home' && (
+                  <ScrollView
+                    style={styles.homeScroll}
+                    contentContainerStyle={styles.homeContent}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <QuickActionsSection />
+                    <UpdatesSection />
+                  </ScrollView>
+                )}
               </View>
             ))}
           </PagerView>
@@ -175,6 +197,14 @@ const styles = StyleSheet.create({
 
   page: {
     flex: 1,
+  },
+
+  homeScroll: {
+    flex: 1,
+  },
+
+  homeContent: {
+    paddingBottom: 12,
   },
 
   tabBar: {

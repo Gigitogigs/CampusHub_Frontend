@@ -2,11 +2,11 @@
 import React from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   Pressable,
 } from 'react-native';
 
+import AppText from './AppText';
 import {
   Menu,
   Bell,
@@ -41,9 +41,9 @@ export default function HomeHeader({
 
       {/* App branding */}
       <View style={styles.brandContainer}>
-        <Text style={styles.brandText}>
-          Campus <Text style={styles.brandAccent}>Hub</Text>
-        </Text>
+        <AppText style={styles.brandText}>
+          Campus <AppText style={styles.brandAccent}>Hub</AppText>
+        </AppText>
       </View>
 
       {/* Right side actions */}
@@ -60,9 +60,9 @@ export default function HomeHeader({
 
           {notificationCount > 0 && (
             <View style={styles.notificationBadge}>
-              <Text style={styles.badgeText}>
+              <AppText style={styles.badgeText}>
                 {notificationCount > 9 ? '9+' : notificationCount}
-              </Text>
+              </AppText>
             </View>
           )}
         </Pressable>

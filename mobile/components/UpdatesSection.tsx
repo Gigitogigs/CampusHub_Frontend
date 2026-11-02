@@ -2,9 +2,9 @@ import { ChevronRight } from 'lucide-react-native';
 import {
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import AppText from './AppText';
 
 export type SchoolUpdate = {
   id: string;
@@ -58,7 +58,7 @@ export default function UpdatesSection({
   return (
     <View style={styles.container}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>School updates</Text>
+        <AppText style={styles.sectionTitle}>School updates</AppText>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="See all school updates"
@@ -68,17 +68,17 @@ export default function UpdatesSection({
             pressed && styles.pressed,
           ]}
         >
-          <Text style={styles.seeAllText}>See all</Text>
+          <AppText style={styles.seeAllText}>See all</AppText>
           <ChevronRight size={16} color="#A5F52A" strokeWidth={2.5} />
         </Pressable>
       </View>
 
       {updates.length === 0 ? (
         <View style={styles.emptyCard}>
-          <Text style={styles.emptyTitle}>You’re all caught up</Text>
-          <Text style={styles.emptyText}>
+          <AppText style={styles.emptyTitle}>You’re all caught up</AppText>
+          <AppText style={styles.emptyText}>
             New school announcements will appear here.
-          </Text>
+          </AppText>
         </View>
       ) : (
         <View style={styles.updateList}>
@@ -105,25 +105,25 @@ export default function UpdatesSection({
                     ]}
                   >
                     {isUrgent && <View style={styles.urgentDot} />}
-                    <Text
+                    <AppText
                       style={[
                         styles.categoryText,
                         isUrgent && styles.urgentText,
                       ]}
                     >
                       {isUrgent ? 'Urgent' : update.category}
-                    </Text>
+                    </AppText>
                   </View>
-                  <Text style={styles.timeText}>{update.timeLabel}</Text>
+                  <AppText style={styles.timeText}>{update.timeLabel}</AppText>
                 </View>
 
-                <Text style={styles.updateTitle}>{update.title}</Text>
-                <Text style={styles.summary} numberOfLines={2}>
+                <AppText style={styles.updateTitle}>{update.title}</AppText>
+                <AppText style={styles.summary} numberOfLines={2}>
                   {update.summary}
-                </Text>
+                </AppText>
 
                 <View style={styles.cardFooter}>
-                  <Text style={styles.sourceText}>{update.source}</Text>
+                  <AppText style={styles.sourceText}>{update.source}</AppText>
                   <ChevronRight size={18} color="#A6A6A6" strokeWidth={2} />
                 </View>
               </Pressable>
