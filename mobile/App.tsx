@@ -243,6 +243,7 @@ function AppContent() {
               {
                 width: indicatorWidth,
                 opacity: tabBarWidth > 0 ? 1 : 0,
+                backgroundColor: mode === 'dark' ? '#FFFFFF' : colors.text,
                 transform: [{ translateX: indicatorTranslateX }],
               },
             ]}
@@ -306,6 +307,5 @@ const styles = StyleSheet.create({
     left: 0,
     height: 3,
     borderRadius: 2,
-    backgroundColor: '#FFFFFF',
   },
 });

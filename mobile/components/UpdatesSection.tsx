@@ -74,10 +74,16 @@ export default function UpdatesSection({
             pressed && styles.pressed,
           ]}
         >
-          <AppText style={[styles.seeAllText, { color: colors.accent }]}>
+          <AppText
+            style={[styles.seeAllText, { color: colors.supportingAccent }]}
+          >
             See all
           </AppText>
-          <ChevronRight size={16} color={colors.accent} strokeWidth={2.5} />
+          <ChevronRight
+            size={16}
+            color={colors.supportingAccent}
+            strokeWidth={2.5}
+          />
         </Pressable>
       </View>
 

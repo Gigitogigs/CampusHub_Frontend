@@ -278,7 +278,11 @@ export default function CartSection({
             { backgroundColor: colors.surface, borderColor: colors.border },
           ]}
         >
-          <ShieldCheck size={18} color={colors.accent} strokeWidth={2} />
+          <ShieldCheck
+            size={18}
+            color={colors.supportingAccent}
+            strokeWidth={2}
+          />
           <View style={styles.trustCopy}>
             <AppText style={[styles.trustTitle, { color: colors.text }]}>
               Shop within your campus community

@@ -46,6 +46,7 @@ const products = [
     label: 'Popular',
     emoji: '💻',
     background: '#18223B',
+    lightBackground: '#DDF3F7',
   },
   {
     id: 'headphones',
@@ -56,6 +57,7 @@ const products = [
     label: 'New',
     emoji: '🎧',
     background: '#32243B',
+    lightBackground: '#E9F5F7',
   },
   {
     id: 'textbook',
@@ -66,6 +68,7 @@ const products = [
     label: '',
     emoji: '📚',
     background: '#23372F',
+    lightBackground: '#E3F3F4',
   },
   {
     id: 'backpack',
@@ -76,6 +79,7 @@ const products = [
     label: 'Good deal',
     emoji: '🎒',
     background: '#3A3023',
+    lightBackground: '#FFF3D4',
   },
   {
     id: 'tutoring',
@@ -86,6 +90,7 @@ const products = [
     label: '',
     emoji: '✏️',
     background: '#243843',
+    lightBackground: '#DDF2F7',
   },
   {
     id: 'watch',
@@ -96,6 +101,7 @@ const products = [
     label: '',
     emoji: '⌚',
     background: '#332A3D',
+    lightBackground: '#E7F3F7',
   },
 ] as const;
 
@@ -243,7 +249,7 @@ export default function MarketplaceSection({
         >
           <Laptop
             size={74}
-            color={colors.accent}
+          color={colors.supportingAccent}
             strokeWidth={1.15}
           />
           <View
@@ -340,7 +346,11 @@ export default function MarketplaceSection({
             >
               <CategoryIcon
                 size={15}
-                color={isSelected ? colors.accentForeground : colors.accent}
+                color={
+                  isSelected
+                    ? colors.accentForeground
+                    : colors.supportingAccent
+                }
                 strokeWidth={2}
               />
               <AppText
@@ -394,7 +404,12 @@ export default function MarketplaceSection({
                 <View
                   style={[
                     styles.productArtwork,
-                    { backgroundColor: product.background },
+                    {
+                      backgroundColor:
+                        mode === 'light'
+                          ? product.lightBackground
+                          : product.background,
+                    },
                   ]}
                 >
                   <AppText style={styles.productEmoji}>{product.emoji}</AppText>

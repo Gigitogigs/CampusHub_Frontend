@@ -45,7 +45,11 @@ export default function HomeHeader({
         accessibilityRole="button"
         accessibilityLabel="Open profile"
       >
-        <UserRound size={21} color={colors.accent} strokeWidth={2} />
+        <UserRound
+          size={21}
+          color={colors.supportingAccent}
+          strokeWidth={2}
+        />
       </Pressable>
 
       {/* App branding */}

@@ -44,7 +44,9 @@ function ProfileActionRow({
   onPress,
 }: ProfileActionRowProps) {
   const { colors } = useAppTheme();
-  const iconColor = destructive ? colors.urgentText : colors.accent;
+  const iconColor = destructive
+    ? colors.urgentText
+    : colors.supportingAccent;
   const iconBackground = destructive
     ? colors.urgentSurface
     : colors.raisedSurface;
@@ -256,7 +258,7 @@ export default function ProfileSettingsSection() {
               { backgroundColor: colors.raisedSurface },
             ]}
           >
-            <Bell size={19} color={colors.accent} strokeWidth={2} />
+            <Bell size={19} color={colors.supportingAccent} strokeWidth={2} />
           </View>
           <View style={styles.rowCopy}>
             <AppText style={[styles.rowTitle, { color: colors.text }]}>
@@ -295,9 +297,9 @@ export default function ProfileSettingsSection() {
             ]}
           >
             {isLightMode ? (
-              <Sun size={19} color={colors.accent} strokeWidth={2} />
+              <Sun size={19} color={colors.supportingAccent} strokeWidth={2} />
             ) : (
-              <Moon size={19} color={colors.accent} strokeWidth={2} />
+              <Moon size={19} color={colors.supportingAccent} strokeWidth={2} />
             )}
           </View>
           <View style={styles.rowCopy}>

@@ -34,7 +34,7 @@ export default function UniversalSearchBar({
         },
       ]}
     >
-      <Search size={20} color={colors.secondaryText} strokeWidth={2} />
+      <Search size={20} color={colors.supportingAccent} strokeWidth={2} />
 
       <AppTextInput
         accessibilityLabel="Search"

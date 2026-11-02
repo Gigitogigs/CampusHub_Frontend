@@ -70,7 +70,11 @@ export default function QuickActionsSection({
               >
                 <Icon
                   size={21}
-                  color={isFeatured ? colors.accentForeground : colors.accent}
+                  color={
+                    isFeatured
+                      ? colors.accentForeground
+                      : colors.supportingAccent
+                  }
                   strokeWidth={2}
                 />
               </View>
@@ -79,7 +83,9 @@ export default function QuickActionsSection({
               </AppText>
               <ChevronRight
                 size={16}
-                color={isFeatured ? colors.accent : colors.secondaryText}
+                color={
+                  isFeatured ? colors.accent : colors.supportingAccent
+                }
                 strokeWidth={2}
               />
             </Pressable>
